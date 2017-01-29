@@ -61,6 +61,9 @@ diagonal1 = [rs + cs for rs, cs in dict(zip(rows, cols)).items()]
 diagonal2 = [rs + cs for rs, cs in dict(zip(rows, reversed(cols))).items()]
 
 diagonal_unitlist = unitlist.copy()
+
+# To solve diagonal sudoku,diagonal1 & diagonal2 extra constraints are added to unitlist
+
 diagonal_unitlist.extend([diagonal1, diagonal2])
 
 diagonal_units = dict((s, [u for u in diagonal_unitlist if s in u]) for s in boxes)
