@@ -110,6 +110,11 @@ def display(values):
     pass
 
 def eliminate(values):
+    """
+    Go through all the boxes, and whenever there is a box with a value, eliminate this value from the values of all its peers.
+    Input: A sudoku in dictionary form.
+    Output: The resulting sudoku in dictionary form.
+    """
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     for box in solved_values:
         digit = values[box]
@@ -119,6 +124,11 @@ def eliminate(values):
     pass
 
 def only_choice(values):
+    """
+    Go through all the units, and whenever there is a unit with a value that only fits in one box, assign the value to this box.
+    Input: A sudoku in dictionary form.
+    Output: The resulting sudoku in dictionary form.
+    """
     for unit in diagonal_unitlist:
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
@@ -128,6 +138,11 @@ def only_choice(values):
     pass
 
 def reduce_puzzle(values):
+    """
+    Reduce the puzzle,first applying eliminate strategy and then only choice strategy.
+    Input: A sudoku in dictionary form.
+    Output: The resulting sudoku in dictionary form.
+    """
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     stalled = False
     while not stalled:
