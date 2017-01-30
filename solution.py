@@ -143,7 +143,7 @@ def reduce_puzzle(values):
         # Second applied the only choice strategy
         valuess = only_choice(values)
         # Third applied the naked twin strategy
-        values = naked_twin(values)
+        values = naked_twins(values)
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
         stalled = solved_values_before == solved_values_after
         if len([box for box in values.keys() if len(values[box]) == 0]):
