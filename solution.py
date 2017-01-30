@@ -1,5 +1,7 @@
 import collections
 assignments = []
+rows = 'ABCDEFGHI'
+cols = '123456789'
 
 def assign_value(values, box, value):
     """
@@ -35,9 +37,7 @@ def naked_twins(values):
                     for digit in twin:
                         new_value = new_value.replace(digit, '')
                         assign_value(values, box, new_value)
-
     return values
-    pass
 
 def cross(A, B):
     "Cross product of elements in A and elements in B."
@@ -66,10 +66,7 @@ diagonal_unitlist = unitlist.copy()
 
 diagonal_unitlist.extend([diagonal1, diagonal2])
 
-diagonal_units = dict((s, [u for u in diagonal_unitlist if s in u]) for s in boxes)
-
-pass
-    
+diagonal_units = dict((s, [u for u in diagonal_unitlist if s in u]) for s in boxes)    
 
 def grid_values(grid):
     """
@@ -89,9 +86,7 @@ def grid_values(grid):
         if c == '.':
             chars.append(digits)
     assert len(chars) == 81
-    return dict(zip(boxes, chars))
-    pass
-    
+    return dict(zip(boxes, chars))    
 
 def display(values):
     """
@@ -107,8 +102,6 @@ def display(values):
         if r in 'CF': print(line)
     print
 
-    pass
-
 def eliminate(values):
     """
     Go through all the boxes, and whenever there is a box with a value, eliminate this value from the values of all its peers.
@@ -121,7 +114,6 @@ def eliminate(values):
         for peer in peers[box]:
             values[peer] = values[peer].replace(digit,'')
     return values
-    pass
 
 def only_choice(values):
     """
@@ -135,11 +127,10 @@ def only_choice(values):
             if len(dplaces) == 1:
                 values[dplaces[0]] = digit
     return values
-    pass
 
 def reduce_puzzle(values):
     """
-    Reduce the puzzle,first applying eliminate strategy and then only choice strategy.
+    Reduce the puzzle,first applying eliminate strategy,then only choice and naked twin strategy.
     Input: A sudoku in dictionary form.
     Output: The resulting sudoku in dictionary form.
     """
@@ -147,14 +138,17 @@ def reduce_puzzle(values):
     stalled = False
     while not stalled:
         solved_values_before = len([box for box in values.keys() if len(values[box]) == 1])
-        values = eliminate(values) 
-        values = only_choice(values)
+        # First applied the eliminate strategy
+        values = eliminate(values)
+        # Second applied the only choice strategy
+        valuess = only_choice(values)
+        # Third applied the naked twin strategy
+        values = naked_twin(values)
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
         stalled = solved_values_before == solved_values_after
         if len([box for box in values.keys() if len(values[box]) == 0]):
             return False
     return values
-    pass
 
 def search(values):
     values = reduce_puzzle(values)
@@ -175,7 +169,6 @@ def search(values):
         attempt = search(new_values)
         if attempt:
             return attempt
-    pass
 
 def solve(grid):
     """
